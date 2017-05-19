@@ -88,10 +88,12 @@ export default function Transformer(context: ts.TransformationContext) {
       }
       if (prop.name.getText() == PROP_NAME) {
         styleNameAttr = prop //ignore and save
+        return false
       } else if (prop.name.getText() == 'className') {
         classNameAttr = prop  //ignore and save
+        return false
       }
-      return false
+      return true
     })
     if (styleNameAttr === undefined) {
       return node
