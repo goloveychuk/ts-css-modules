@@ -12,7 +12,11 @@ function showWarning(node: ts.Node, msg: string) {
    }
 
 
-export function patchTsLib(tsLibModule: any) {
+export function patchTsLib(tsLibModule: any, customFn?: Function) {
+  if (customFn !== undefined) {
+    tsLibModule.__getAndCheckStyleName = customFn
+    return  
+  }
   tsLibModule.__getAndCheckStyleName = function __getAndCheckStyleName(styleName: any) {
     if (styleName === undefined) {
       throw new Error('stylename is undefined');

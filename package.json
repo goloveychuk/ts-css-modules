@@ -1,5 +1,5 @@
 {
-  "name": "css_modules_transformer",
+  "name": "ts_css_modules",
   "version": "1.0.0",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/goloveychuk/tsruntime.git"
+    "url": "https://github.com/goloveychuk/ts_css_modules.git"
   },
   "keywords": [
     "typescript",
@@ -17,9 +17,9 @@
     "runtime"
   ],
   "bugs": {
-    "url": "https://github.com/goloveychuk/tsruntime/issues"
+    "url": "https://github.com/goloveychuk/ts_css_modules/issues"
   },
-  "homepage": "https://github.com/goloveychuk/tsruntime",
+  "homepage": "https://github.com/goloveychuk/ts_css_modules",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^7.0.18",
