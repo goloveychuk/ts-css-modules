@@ -1,4 +1,3 @@
-/dist
 /node_modules
 /tests/build
 /tests/emit_output
