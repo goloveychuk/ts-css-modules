@@ -3,6 +3,15 @@ import * as ts from 'typescript';
 
 const PROP_NAME = 'styleName';
 
+
+function showWarning(node: ts.Node, msg: string) {
+     const fname = node.getSourceFile().fileName;
+     const location = node.getSourceFile().getLineAndCharacterOfPosition(node.getStart());
+     const node_text = node.getText();
+     console.warn(`\n\nwarning: ${msg}: ${fname} ${location.line}:${location.character}: ${node_text}\n`);
+   }
+
+
 export function patchTsLib(tsLibModule: any) {
   tsLibModule.__getAndCheckStyleName = function __getAndCheckStyleName(styleName: any) {
     if (styleName === undefined) {
@@ -102,8 +111,11 @@ export default function Transformer(context: ts.TransformationContext) {
     if (styleNameAttr.initializer == undefined) {
       return node
     }
+    if (styleNameAttr.initializer.kind === ts.SyntaxKind.StringLiteral) {
+      showWarning(styleNameAttr, 'styleName attribute is string literal')
+    }
     const styleNameExp = getExp(styleNameAttr.initializer)
-
+    
     if (classNameAttr !== undefined) {
       classNameAttr = ts.getMutableClone(classNameAttr)
       classNameAttr.initializer = getNewClassNameInitializer(classNameAttr.initializer, styleNameExp)
