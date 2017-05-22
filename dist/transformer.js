@@ -8,7 +8,11 @@ function showWarning(node, msg) {
     var node_text = node.getText();
     console.warn("\n\nwarning: " + msg + ": " + fname + " " + location.line + ":" + location.character + ": " + node_text + "\n");
 }
-function patchTsLib(tsLibModule) {
+function patchTsLib(tsLibModule, customFn) {
+    if (customFn !== undefined) {
+        tsLibModule.__getAndCheckStyleName = customFn;
+        return;
+    }
     tsLibModule.__getAndCheckStyleName = function __getAndCheckStyleName(styleName) {
         if (styleName === undefined) {
             throw new Error('stylename is undefined');
