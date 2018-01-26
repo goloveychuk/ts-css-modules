@@ -1,7 +1,7 @@
 # ts-css-modules-transformer
 
 Typescript transformer, running in compile time, to auto concat 'styleName' with className.
-Actually the same as https://github.com/gajus/babel-plugin-react-css-modules , but using typescript compiler api.
+
 ## Example:
 ### Input:
 ```ts
