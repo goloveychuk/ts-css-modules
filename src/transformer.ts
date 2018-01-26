@@ -92,10 +92,10 @@ export default function Transformer(context: ts.TransformationContext) {
     return ts.createJsxExpression(undefined, newClassNameExp)
   }
 
-  function visitJsxElement(node: ts.JsxOpeningLikeElement) {
+  function visitJsxAttributes(attributes: ts.JsxAttributes) {
     let styleNameAttr: ts.JsxAttribute | undefined;
     let classNameAttr: ts.JsxAttribute | undefined;
-    const newProps = node.attributes.properties.filter(prop => {
+    const newProps = attributes.properties.filter(prop => {
       if (prop.kind == ts.SyntaxKind.JsxSpreadAttribute) {
         return true
       }
@@ -109,11 +109,11 @@ export default function Transformer(context: ts.TransformationContext) {
       return true
     })
     if (styleNameAttr === undefined) {
-      return node
+      return attributes
     }
 
     if (styleNameAttr.initializer == undefined) {
-      return node
+      return attributes
     }
     if (styleNameAttr.initializer.kind === ts.SyntaxKind.StringLiteral) {
       showWarning(styleNameAttr, 'styleName attribute is string literal')
@@ -128,11 +128,7 @@ export default function Transformer(context: ts.TransformationContext) {
     }
     newProps.push(classNameAttr)
 
-    const newJsxAttrubutes = ts.createJsxAttributes(newProps)
-
-    const nodeCopy = ts.getMutableClone(node)
-    nodeCopy.attributes = newJsxAttrubutes
-    return nodeCopy
+    return ts.createJsxAttributes(newProps)
 
   }
 
@@ -141,10 +137,9 @@ export default function Transformer(context: ts.TransformationContext) {
   function visitor(node: ts.Node): ts.VisitResult<ts.Node> {
 
     switch (node.kind) {
-      case ts.SyntaxKind.JsxSelfClosingElement:
-      case ts.SyntaxKind.JsxOpeningElement:
-        return visitJsxElement(<ts.JsxOpeningLikeElement>node)
-
+      case ts.SyntaxKind.JsxAttributes:
+        const res = visitJsxAttributes(<ts.JsxAttributes>node)
+        return ts.visitEachChild(res, visitor, context)
       default:
         return ts.visitEachChild(node, visitor, context)
     }

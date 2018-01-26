@@ -5,7 +5,8 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "rimraf dist && tsc --pretty"
+    "build": "rimraf dist && tsc --pretty",
+    "build:test": "rimraf ./tests/build && rimraf ./tests/emit_output && tsc -p ./tests"
   },
   "repository": {
     "type": "git",
